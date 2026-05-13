@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Povești cu Conni 🐱</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(160deg, #fff9f0 0%, #ffe4cc 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 36px 20px 24px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: #e17055;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 0 #fab1a0;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      color: #636e72;
+      font-size: 1rem;
+      margin-top: 8px;
+    }
+
+    header p strong { color: #e17055; }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 16px auto 0;
+      max-width: 380px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 10px 18px;
+      border: 2px solid #fab1a0;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      outline: none;
+      background: #fff;
+      color: #2d3436;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar input:focus { border-color: #e17055; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 30px auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(225,112,85,0.22);
+    }
+
+    .card.hidden { display: none; }
+
+    .thumb-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #ffe4cc;
+      overflow: hidden;
+    }
+
+    .thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .duration {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: rgba(0,0,0,0.76);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      letter-spacing: 0.4px;
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      background: rgba(0,0,0,0.18);
+    }
+
+    .card:hover .play-overlay { opacity: 1; }
+
+    .play-overlay svg circle { fill: white; }
+    .play-overlay svg path { fill: #e17055; }
+
+    .card-body {
+      padding: 11px 14px 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .card-index {
+      font-size: 0.68rem;
+      color: #b2bec3;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #2d3436;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px;
+      color: #636e72;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: #e17055;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    #no-results {
+      text-align: center;
+      padding: 40px;
+      color: #b2bec3;
+      font-size: 1.1rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🐱 Povești cu Conni</h1>
+  <p>55 de povești frumoase &mdash; Canal: <strong>Noapte bună, copii!</strong></p>
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="🔍 Caută o poveste..." oninput="filterCards()">
+  </div>
+</header>
+
+<div class="grid" id="grid">
+
+  <a class="card" href="https://www.youtube.com/watch?v=1HBzOG-4M8I&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=1" target="_blank" rel="noopener" data-title="CONNI si MOS NICOLAE">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/1HBzOG-4M8I/hqdefault.jpg" alt="🎅⛄ CONNI si MOS NICOLAE" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:45</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 1</div>
+      <div class="card-title">🎅⛄ CONNI si MOS NICOLAE. 🎄❄</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=De8V0UIGs-U&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=2" target="_blank" rel="noopener" data-title="CONNI merge la gradinita">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/De8V0UIGs-U/hqdefault.jpg" alt="CONNI merge la gradinita" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">6:03</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 2</div>
+      <div class="card-title">CONNI merge la gradinita</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=3WJ0JYwI-kM&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=3" target="_blank" rel="noopener" data-title="CONNI si BEBELUSUL">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/3WJ0JYwI-kM/hqdefault.jpg" alt="CONNI si BEBELUSUL" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">4:09</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 3</div>
+      <div class="card-title">CONNI si BEBELUSUL</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=yt9-zddaHdw&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=4" target="_blank" rel="noopener" data-title="CONNI si OLITA">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/yt9-zddaHdw/hqdefault.jpg" alt="CONNI si OLITA" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">5:31</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 4</div>
+      <div class="card-title">CONNI si OLITA</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=pqQH1JJXjiA&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=5" target="_blank" rel="noopener" data-title="CONNI sarbatoreste CRACIUNUL">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/pqQH1JJXjiA/hqdefault.jpg" alt="CONNI sarbatoreste CRACIUNUL" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">10:56</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 5</div>
+      <div class="card-title">🎅🎄 CONNI sarbatoreste CRACIUNUL ❄⛄</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=GpTnCDya8sk&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=6" target="_blank" rel="noopener" data-title="CONNI nu sta de vorba cu necunoscuti">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/GpTnCDya8sk/hqdefault.jpg" alt="CONNI nu sta de vorba cu necunoscuti" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:28</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 6</div>
+      <div class="card-title">CONNI nu sta de vorba cu necunoscuti</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=vdlkAtx2DMo&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=7" target="_blank" rel="noopener" data-title="CONNI se cearta cu IULIA">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/vdlkAtx2DMo/hqdefault.jpg" alt="CONNI se cearta cu IULIA" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:28</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 7</div>
+      <div class="card-title">👧 CONNI se cearta cu IULIA</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=b70B2-hF6Dw&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=8" target="_blank" rel="noopener" data-title="CONNI primeste bani de buzunar">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/b70B2-hF6Dw/hqdefault.jpg" alt="CONNI primeste bani de buzunar" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">9:04</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 8</div>
+      <div class="card-title">👧 CONNI primeste bani de buzunar</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=saYmc9C3Wbk&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=9" target="_blank" rel="noopener" data-title="CONNI o ajuta pe mama">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/saYmc9C3Wbk/hqdefault.jpg" alt="CONNI o ajuta pe mama" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:59</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 9</div>
+      <div class="card-title">👧 CONNI o ajuta pe mama</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=X4iC_tWzpxo&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=10" target="_blank" rel="noopener" data-title="CONNI nu poate adormi">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/X4iC_tWzpxo/hqdefault.jpg" alt="CONNI nu poate adormi" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:35</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 10</div>
+      <div class="card-title">CONNI nu poate adormi</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=CKqD3XVQvpY&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=11" target="_blank" rel="noopener" data-title="CONNI se pierde de mama">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/CKqD3XVQvpY/hqdefault.jpg" alt="CONNI se pierde de mama" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:25</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 11</div>
+      <div class="card-title">👧 CONNI se pierde de mama</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=wygjmqmdLys&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=12" target="_blank" rel="noopener" data-title="CONNI are paduchi">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/wygjmqmdLys/hqdefault.jpg" alt="CONNI are paduchi" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:34</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 12</div>
+      <div class="card-title">👧 CONNI are paduchi</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=YclU0elLLVY&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=13" target="_blank" rel="noopener" data-title="CONNI si iepurasul de pasti">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/YclU0elLLVY/hqdefault.jpg" alt="CONNI si iepurasul de pasti" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:30</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 13</div>
+      <div class="card-title">👧 CONNI si iepurasul de pasti 🐰🐇</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=iaFBcTJCRFM&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=14" target="_blank" rel="noopener" data-title="Conni invata sa mearga pe bicicleta">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/iaFBcTJCRFM/hqdefault.jpg" alt="Conni invata sa mearga pe bicicleta" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:01</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 14</div>
+      <div class="card-title">Conni 👧 invata sa mearga pe bicicleta 🚴</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=sPNMjYXpxXY&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=15" target="_blank" rel="noopener" data-title="Conni invata sa innoate">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/sPNMjYXpxXY/hqdefault.jpg" alt="Conni invata sa innoate" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:52</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 15</div>
+      <div class="card-title">Conni 👧 invata sa innoate 🏊</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=tcJyRpWDy-M&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=16" target="_blank" rel="noopener" data-title="Connie stie cat e ceasul">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/tcJyRpWDy-M/hqdefault.jpg" alt="Connie stie cat e ceasul" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">12:05</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 16</div>
+      <div class="card-title">👧 Connie stie cat e ceasul ⏰</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=pvc9lmUyGck&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=17" target="_blank" rel="noopener" data-title="CONNI la bunici">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/pvc9lmUyGck/hqdefault.jpg" alt="CONNI la bunici" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:00</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 17</div>
+      <div class="card-title">👧 CONNI la bunici 👴👳</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=rrnDmeC_Bd0&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=18" target="_blank" rel="noopener" data-title="CONNI merge la ferma">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/rrnDmeC_Bd0/hqdefault.jpg" alt="CONNI merge la ferma" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">6:11</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 18</div>
+      <div class="card-title">👧 CONNI merge la ferma 🐄🐶🐣</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=_UMACTE5zU0&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=19" target="_blank" rel="noopener" data-title="Conni la munte">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/_UMACTE5zU0/hqdefault.jpg" alt="Conni la munte" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">9:53</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 19</div>
+      <div class="card-title">👧 Conni la munte 🌄</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=d9bkcb2t2F8&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=20" target="_blank" rel="noopener" data-title="CONNI e bolnava">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/d9bkcb2t2F8/hqdefault.jpg" alt="CONNI e bolnava" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:35</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 20</div>
+      <div class="card-title">👧 CONNI e bolnava</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=EZLODgKaEiM&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=21" target="_blank" rel="noopener" data-title="CONNI isi serbeaza ziua de nastere">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/EZLODgKaEiM/hqdefault.jpg" alt="CONNI isi serbeaza ziua de nastere" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:46</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 21</div>
+      <div class="card-title">👧 CONNI isi serbeaza ziua de nastere 🎂</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=vg9rxVLB5Tg&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=22" target="_blank" rel="noopener" data-title="CONNI face prajituri">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/vg9rxVLB5Tg/hqdefault.jpg" alt="CONNI face prajituri" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">9:57</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 22</div>
+      <div class="card-title">👧 CONNI face prajituri 🍪</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=wTwPFwZzkuE&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=23" target="_blank" rel="noopener" data-title="CONNI merge la ZOO">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/wTwPFwZzkuE/hqdefault.jpg" alt="CONNI merge la ZOO" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:14</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 23</div>
+      <div class="card-title">👧 CONNI merge la ZOO 🐘</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=3Jj142nPfTo&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=24" target="_blank" rel="noopener" data-title="CONNI primeste o PISICA">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/3Jj142nPfTo/hqdefault.jpg" alt="CONNI primeste o PISICA" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:39</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 24</div>
+      <div class="card-title">👧 CONNI primeste o 😸 PISICA 🐈</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=Ged6sDQjqA4&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=25" target="_blank" rel="noopener" data-title="CONNI la COAFOR">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/Ged6sDQjqA4/hqdefault.jpg" alt="CONNI la COAFOR" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">9:01</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 25</div>
+      <div class="card-title">👧 CONNI la COAFOR 💇‍♀️</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=iXbWDY7C04E&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=26" target="_blank" rel="noopener" data-title="CONNI vrea sa devina balerina">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/iXbWDY7C04E/hqdefault.jpg" alt="CONNI vrea sa devina balerina" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:43</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 26</div>
+      <div class="card-title">👧 CONNI vrea sa devina balerina 🩰</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=-Nbp_Zk6xeA&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=27" target="_blank" rel="noopener" data-title="CONNI merge in excursie">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/-Nbp_Zk6xeA/hqdefault.jpg" alt="CONNI merge in excursie" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:37</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 27</div>
+      <div class="card-title">👧 CONNI merge in excursie 🏞️</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=rMVdofhZcPI&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=28" target="_blank" rel="noopener" data-title="CONNI la schi">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/rMVdofhZcPI/hqdefault.jpg" alt="CONNI la schi" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:07</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 28</div>
+      <div class="card-title">👧 CONNI la schi ⛷️</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=84Dqi84g8gY&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=29" target="_blank" rel="noopener" data-title="CONNI LA SANIUS">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/84Dqi84g8gY/hqdefault.jpg" alt="CONNI LA SANIUS" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:50</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 29</div>
+      <div class="card-title">⛄❄ CONNI LA SANIUS ❄⛄</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=9ZfasnwXkI4&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=30" target="_blank" rel="noopener" data-title="CONNI Colaj 9 povesti">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/9ZfasnwXkI4/hqdefault.jpg" alt="CONNI Colaj 9 povesti" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">1:05:27</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 30</div>
+      <div class="card-title">👧 CONNI — Colaj 9 povești 📖</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=rDtsBuC0H3g&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=31" target="_blank" rel="noopener" data-title="CONNI colaj 14 povesti">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/rDtsBuC0H3g/hqdefault.jpg" alt="CONNI colaj 14 povesti" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">1:47:30</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 31</div>
+      <div class="card-title">👧 CONNI — Colaj 14 povești 📖</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=FjoV7sgzTBY&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=32" target="_blank" rel="noopener" data-title="CONNI nu sta de vorba cu necunoscuti">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/FjoV7sgzTBY/hqdefault.jpg" alt="CONNI nu sta de vorba cu necunoscuti" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:28</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 32</div>
+      <div class="card-title">👧 CONNI nu sta de vorba cu necunoscuti</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=pGXePMQYfIA&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=33" target="_blank" rel="noopener" data-title="CONNI se cearta cu IULIA">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/pGXePMQYfIA/hqdefault.jpg" alt="CONNI se cearta cu IULIA" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:28</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 33</div>
+      <div class="card-title">👧 CONNI se cearta cu IULIA</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=TV4Rn9tz-tQ&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=34" target="_blank" rel="noopener" data-title="CONNI nu poate adormi">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/TV4Rn9tz-tQ/hqdefault.jpg" alt="CONNI nu poate adormi" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:35</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 34</div>
+      <div class="card-title">👧 CONNI nu poate adormi 🛌</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=G9duVYObBYU&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=35" target="_blank" rel="noopener" data-title="CONNI o ajuta pe mama">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/G9duVYObBYU/hqdefault.jpg" alt="CONNI o ajuta pe mama" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:59</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 35</div>
+      <div class="card-title">👧 CONNI o ajuta pe mama 🧹</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=uwQ7wFmB5Ig&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=36" target="_blank" rel="noopener" data-title="CONNI Colaj 12 povesti">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/uwQ7wFmB5Ig/hqdefault.jpg" alt="CONNI Colaj 12 povesti" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">1:35:10</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 36</div>
+      <div class="card-title">👧 CONNI — Colaj 12 povești 📖</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=tWlTq9BqNmY&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=37" target="_blank" rel="noopener" data-title="Conni la Scoala de Muzica">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/tWlTq9BqNmY/hqdefault.jpg" alt="Conni la Scoala de Muzica" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">6:02</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 37</div>
+      <div class="card-title">👧 Conni la Scoala de Muzica 🎼</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=VaXbwFJNpLU&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=38" target="_blank" rel="noopener" data-title="CONNI merge la scoala">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/VaXbwFJNpLU/hqdefault.jpg" alt="CONNI merge la scoala" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:46</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 38</div>
+      <div class="card-title">👧 CONNI merge la scoala 🏫🎒</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=SE6RvCQ-fAw&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=39" target="_blank" rel="noopener" data-title="CONNI la plaja">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/SE6RvCQ-fAw/hqdefault.jpg" alt="CONNI la plaja" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">4:37</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 39</div>
+      <div class="card-title">👧 CONNI la plaja 🏖️</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=ie-p4i4U4UI&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=40" target="_blank" rel="noopener" data-title="CONNI merge la dentist">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/ie-p4i4U4UI/hqdefault.jpg" alt="CONNI merge la dentist" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">6:28</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 40</div>
+      <div class="card-title">👧 CONNI merge la dentist 🦷</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=-jBYTLUQ1Bc&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=41" target="_blank" rel="noopener" data-title="CONNI coace pizza">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/-jBYTLUQ1Bc/hqdefault.jpg" alt="CONNI coace pizza" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:49</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 41</div>
+      <div class="card-title">👧 CONNI coace pizza 🍕</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=Aw3NhY4ppEA&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=42" target="_blank" rel="noopener" data-title="CONNI invata sa calareasca">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/Aw3NhY4ppEA/hqdefault.jpg" alt="CONNI invata sa calareasca" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:56</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 42</div>
+      <div class="card-title">👧 CONNI invata sa calareasca 🐴🏇</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=cmJRB14Rr5A&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=43" target="_blank" rel="noopener" data-title="CONNI merge la cumparaturi">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/cmJRB14Rr5A/hqdefault.jpg" alt="CONNI merge la cumparaturi" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">10:42</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 43</div>
+      <div class="card-title">👧 CONNI merge la cumparaturi 🛍️🛒</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=9Pd0s0qWA34&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=44" target="_blank" rel="noopener" data-title="CONNI il ajuta pe tata">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/9Pd0s0qWA34/hqdefault.jpg" alt="CONNI il ajuta pe tata" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:23</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 44</div>
+      <div class="card-title">👧 CONNI il ajuta pe tata 👴🏻</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=0Q1FmCsnUcQ&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=45" target="_blank" rel="noopener" data-title="CONNI si zana maseluta">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/0Q1FmCsnUcQ/hqdefault.jpg" alt="CONNI si zana maseluta" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:51</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 45</div>
+      <div class="card-title">👧 CONNI si zana maseluta 🦷🧚‍♀️</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=8HZwBB1y2mw&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=46" target="_blank" rel="noopener" data-title="CONNI se deghizeaza">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/8HZwBB1y2mw/hqdefault.jpg" alt="CONNI se deghizeaza" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:18</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 46</div>
+      <div class="card-title">👧 CONNI se deghizeaza 🎭</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=NZZcQs27JDQ&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=47" target="_blank" rel="noopener" data-title="CONNI pregateste cadouri de Craciun">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/NZZcQs27JDQ/hqdefault.jpg" alt="CONNI pregateste cadouri de Craciun" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">8:56</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 47</div>
+      <div class="card-title">👧 CONNI pregateste cadouri de Craciun 🎄🎅🏻</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=TJns42fv9NA&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=48" target="_blank" rel="noopener" data-title="Povesti de sarbatori cu CONNI si MAX">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/TJns42fv9NA/hqdefault.jpg" alt="Povesti de sarbatori cu CONNI si MAX" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">58:21</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 48</div>
+      <div class="card-title">Povesti de 🎅🏻 sarbatori 🎄 cu 👧 CONNI si 👦 MAX</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=OZeGVNTWzvA&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=49" target="_blank" rel="noopener" data-title="CONNI are grija de mediu">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/OZeGVNTWzvA/hqdefault.jpg" alt="CONNI are grija de mediu" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">13:10</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 49</div>
+      <div class="card-title">👧 CONNI are grija de mediu 🌿</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=VXVp1EkAhj4&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=50" target="_blank" rel="noopener" data-title="Conni si secretul motanului Miau">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/VXVp1EkAhj4/hqdefault.jpg" alt="Conni si secretul motanului Miau" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">12:31</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 50</div>
+      <div class="card-title">👧 Conni si secretul 😽 motanului 🐈 Miau</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=A6H5kb_YmOQ&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=51" target="_blank" rel="noopener" data-title="CONNI Joaca Fotbal">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/A6H5kb_YmOQ/hqdefault.jpg" alt="CONNI Joaca Fotbal" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:56</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 51</div>
+      <div class="card-title">👧 CONNI joaca Fotbal ⚽️</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=HNSw_9w33Yo&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=52" target="_blank" rel="noopener" data-title="CONNI se muta">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/HNSw_9w33Yo/hqdefault.jpg" alt="CONNI se muta" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">9:18</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 52</div>
+      <div class="card-title">👧 CONNI se muta 📦</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=BQPhKPbaNf0&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=53" target="_blank" rel="noopener" data-title="CONNI 6 povesti">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/BQPhKPbaNf0/hqdefault.jpg" alt="CONNI 6 povesti" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">57:46</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 53</div>
+      <div class="card-title">🧒 CONNI — 6 povești 📖</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=ssTdwb39NI8&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=54" target="_blank" rel="noopener" data-title="CONNI este furioasa">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/ssTdwb39NI8/hqdefault.jpg" alt="CONNI este furioasa" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">10:13</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 54</div>
+      <div class="card-title">🧒 CONNI este furioasa 😤😡</div>
+    </div>
+  </a>
+
+  <a class="card" href="https://www.youtube.com/watch?v=Q_ag9LVhBbE&list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz&index=55" target="_blank" rel="noopener" data-title="CONNI zboara cu avionul">
+    <div class="thumb-wrap">
+      <img src="https://i.ytimg.com/vi/Q_ag9LVhBbE/hqdefault.jpg" alt="CONNI zboara cu avionul" loading="lazy">
+      <div class="play-overlay"><svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="25"/><path d="M20 16L36 25L20 34V16Z"/></svg></div>
+      <span class="duration">7:11</span>
+    </div>
+    <div class="card-body">
+      <div class="card-index">Nr. 55</div>
+      <div class="card-title">👧 CONNI zboara cu avionul ✈️</div>
+    </div>
+  </a>
+
+</div>
+
+<div id="no-results">Nu am găsit nicio poveste cu "<span id="search-term"></span>" 🙁</div>
+
+<footer>
+  <p>📺 Vezi playlist-ul complet pe <a href="https://www.youtube.com/playlist?list=PLRQgb23upRrhqMXdqs47225EDxUpTcdSz" target="_blank" rel="noopener">YouTube</a> &mdash; Canal <a href="https://www.youtube.com/@noaptebuna_copii" target="_blank" rel="noopener">Noapte bună, copii!</a></p>
+</footer>
+
+<script>
+  function filterCards() {
+    const q = document.getElementById('search').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.card');
+    let visible = 0;
+    cards.forEach(c => {
+      const title = c.dataset.title.toLowerCase();
+      const match = !q || title.includes(q);
+      c.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    const noRes = document.getElementById('no-results');
+    document.getElementById('search-term').textContent = q;
+    noRes.style.display = (visible === 0 && q) ? 'block' : 'none';
+  }
+</script>
+
+</body>
+</html>
